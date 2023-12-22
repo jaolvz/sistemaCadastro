@@ -1,4 +1,15 @@
 import sqlite3
+
+def form_email(email):
+    if email.find(".com")!=-1 and email.find("@"):
+        return True
+    else:
+        return False
+
+
+
+
+
 bd = sqlite3.connect('cadastros.db')
 cursor = bd.cursor()
 
@@ -15,9 +26,13 @@ while(i!=3):
             nome = input("Informe o nome: ")
             idade = int(input("Informe a idade: "))
             email = input("Informe seu email: ")
-            cursor.execute(f"INSERT INTO pessoas VALUES (?,?,?)", (nome,idade,email))
-            bd.commit()
-            print("Cadastro concluído com sucesso!")
+            if form_email(email)== True:
+                cursor.execute(f"INSERT INTO pessoas VALUES (?,?,?)", (nome,idade,email))
+                bd.commit()
+                print("Cadastro concluído com sucesso!")
+            else:
+                print("Email inválido.")
+
         case 2:
             cursor.execute("SELECT * FROM pessoas")
             print(cursor.fetchall())
